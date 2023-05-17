@@ -11,6 +11,12 @@ class PatientProfileSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ServiceModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceModel
+        fields = '__all__'
+
+
 class AppointmentSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
@@ -20,8 +26,10 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
 
 class MedicalSampleSerializer(serializers.ModelSerializer):
-    patient = serializers.PrimaryKeyRelatedField(queryset=PatientProfile.objects.all(), default=serializers.CurrentUserDefault())
-    appointment = serializers.PrimaryKeyRelatedField(queryset=Appointment.objects.all(), default=serializers.CurrentUserDefault())
+    patient = serializers.PrimaryKeyRelatedField(queryset=PatientProfile.objects.all(),
+                                                 default=serializers.CurrentUserDefault())
+    appointment = serializers.PrimaryKeyRelatedField(queryset=Appointment.objects.all(),
+                                                     default=serializers.CurrentUserDefault())
 
     class Meta:
         model = MedicalSample
@@ -29,7 +37,8 @@ class MedicalSampleSerializer(serializers.ModelSerializer):
 
 
 class TestResultSerializer(serializers.ModelSerializer):
-    medical_sample = serializers.PrimaryKeyRelatedField(queryset=MedicalSample.objects.all(), default=serializers.CurrentUserDefault())
+    medical_sample = serializers.PrimaryKeyRelatedField(queryset=MedicalSample.objects.all(),
+                                                        default=serializers.CurrentUserDefault())
 
     class Meta:
         model = TestResult

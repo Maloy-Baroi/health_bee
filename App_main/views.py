@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, generics
 from rest_framework.response import Response
 
 from App_main.models import *
@@ -40,6 +40,16 @@ class PatientProfileViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         patient_profile = serializer.save()
         return Response({"status": "Successfully Updated!"})
+
+
+class ServiceModelListCreateView(generics.ListCreateAPIView):
+    queryset = ServiceModel.objects.all()
+    serializer_class = ServiceModelSerializer
+
+
+class ServiceModelRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ServiceModel.objects.all()
+    serializer_class = ServiceModelSerializer
 
 
 class AppointmentViewSet(viewsets.ModelViewSet):

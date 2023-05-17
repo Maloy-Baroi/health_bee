@@ -25,9 +25,18 @@ class PatientProfile(models.Model):
         return self.full_name
 
 
+class ServiceModel(models.Model):
+    test_name = models.CharField(max_length=100)
+    price = models.FloatField(default=0)
+
+    def __str__(self):
+        return self.test_name
+
+
 class Appointment(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     collection_address = models.CharField(max_length=255)
+    service = models.ForeignKey(ServiceModel, on_delete=models.DO_NOTHING, related_query_name="service_details")
     date = models.DateField()
     time = models.TimeField()
     status = models.CharField(max_length=20, choices=(
