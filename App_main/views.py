@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 
 from App_main.models import *
@@ -8,6 +8,7 @@ from App_main.serializers import *
 class PatientProfileViewSet(viewsets.ModelViewSet):
     queryset = PatientProfile.objects.all()
     serializer_class = PatientProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -36,6 +37,7 @@ class PatientProfileViewSet(viewsets.ModelViewSet):
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -64,6 +66,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 class MedicalSampleViewSet(viewsets.ModelViewSet):
     queryset = MedicalSample.objects.all()
     serializer_class = MedicalSampleSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -92,6 +95,7 @@ class MedicalSampleViewSet(viewsets.ModelViewSet):
 class TestResultViewSet(viewsets.ModelViewSet):
     queryset = TestResult.objects.all()
     serializer_class = TestResultSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
