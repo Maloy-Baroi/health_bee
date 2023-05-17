@@ -10,28 +10,36 @@ class PatientProfileViewSet(viewsets.ModelViewSet):
     serializer_class = PatientProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def create(self, request):
-        serializer = self.serializer_class(data=request.data)
+    def create(self, request, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         patient_profile = serializer.save()
-        return Response(patient_profile.data, status=201)
+        return Response({"status": "Successfully Created"}, status=201)
 
-    def retrieve(self, request, pk):
+    def retrieve(self, request, pk, **kwargs):
         patient_profile = PatientProfile.objects.get(pk=pk)
         serializer = self.serializer_class(patient_profile)
         return Response(serializer.data)
 
-    def update(self, request, pk):
+    def update(self, request, pk, **kwargs):
         patient_profile = PatientProfile.objects.get(pk=pk)
-        serializer = self.serializer_class(patient_profile, data=request.data)
+        serializer = self.serializer_class(patient_profile, data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         patient_profile = serializer.save()
-        return Response(patient_profile.data)
+        return Response({"status": "Successfully Updated!"})
 
-    def destroy(self, request, pk):
+    def destroy(self, request, pk, **kwargs):
         patient_profile = PatientProfile.objects.get(pk=pk)
         patient_profile.delete()
         return Response(status=204)
+
+    def patch(self, request, pk, **kwargs):
+        patient_profile = PatientProfile.objects.get(pk=pk)
+        serializer = self.serializer_class(patient_profile, data=request.data, partial=True,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        patient_profile = serializer.save()
+        return Response({"status": "Successfully Updated!"})
 
 
 class AppointmentViewSet(viewsets.ModelViewSet):
@@ -39,25 +47,25 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     serializer_class = AppointmentSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def create(self, request):
-        serializer = self.serializer_class(data=request.data)
+    def create(self, request, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         appointment = serializer.save()
-        return Response(appointment.data, status=201)
+        return Response({"status": "Successfully Created"}, status=201)
 
-    def retrieve(self, request, pk):
+    def retrieve(self, request, pk, **kwargs):
         appointment = Appointment.objects.get(pk=pk)
         serializer = self.serializer_class(appointment)
         return Response(serializer.data)
 
-    def update(self, request, pk):
+    def update(self, request, pk, **kwargs):
         appointment = Appointment.objects.get(pk=pk)
         serializer = self.serializer_class(appointment, data=request.data)
         serializer.is_valid(raise_exception=True)
         appointment = serializer.save()
         return Response(appointment.data)
 
-    def destroy(self, request, pk):
+    def destroy(self, request, pk, **kwargs):
         appointment = Appointment.objects.get(pk=pk)
         appointment.delete()
         return Response(status=204)
@@ -68,25 +76,25 @@ class MedicalSampleViewSet(viewsets.ModelViewSet):
     serializer_class = MedicalSampleSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def create(self, request):
-        serializer = self.serializer_class(data=request.data)
+    def create(self, request, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         medical_sample = serializer.save()
-        return Response(medical_sample.data, status=201)
+        return Response({"status": "Successfully Created"}, status=201)
 
-    def retrieve(self, request, pk):
+    def retrieve(self, request, pk, **kwargs):
         medical_sample = MedicalSample.objects.get(pk=pk)
         serializer = self.serializer_class(medical_sample)
         return Response(serializer.data)
 
-    def update(self, request, pk):
+    def update(self, request, pk, **kwargs):
         medical_sample = MedicalSample.objects.get(pk=pk)
         serializer = self.serializer_class(medical_sample, data=request.data)
         serializer.is_valid(raise_exception=True)
         medical_sample = serializer.save()
         return Response(medical_sample.data)
 
-    def destroy(self, request, pk):
+    def destroy(self, request, pk, **kwargs):
         medical_sample = MedicalSample.objects.get(pk=pk)
         medical_sample.delete()
         return Response(status=204)
@@ -97,13 +105,13 @@ class TestResultViewSet(viewsets.ModelViewSet):
     serializer_class = TestResultSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def create(self, request):
-        serializer = self.serializer_class(data=request.data)
+    def create(self, request, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         test_result = serializer.save()
-        return Response(test_result.data, status=201)
+        return Response({"status": "Successfully Created"}, status=201)
 
-    def retrieve(self, request, pk):
+    def retrieve(self, request, pk, **kwargs):
         test_result = TestResult.objects.get(pk=pk)
         serializer = self.serializer_class(test_result)
         return Response(serializer.data)

@@ -1,25 +1,36 @@
 from rest_framework import serializers
-from .models import PatientProfile, Appointment, MedicalSample, TestResult
+
+from App_main.models import *
+
 
 class PatientProfileSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
         model = PatientProfile
-        fields = ('full_name', 'gender', 'dob', 'email', 'phone_number')
+        fields = '__all__'
 
 
 class AppointmentSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
         model = Appointment
-        fields = ('user', 'collection_address', 'date', 'time', 'status')
+        fields = '__all__'
 
 
 class MedicalSampleSerializer(serializers.ModelSerializer):
+    patient = serializers.PrimaryKeyRelatedField(queryset=PatientProfile.objects.all(), default=serializers.CurrentUserDefault())
+    appointment = serializers.PrimaryKeyRelatedField(queryset=Appointment.objects.all(), default=serializers.CurrentUserDefault())
+
     class Meta:
         model = MedicalSample
-        fields = ('patient', 'appointment', 'sample_type', 'collection_date', 'collection_time', 'is_sent_to_lab')
+        fields = '__all__'
 
 
 class TestResultSerializer(serializers.ModelSerializer):
+    medical_sample = serializers.PrimaryKeyRelatedField(queryset=MedicalSample.objects.all(), default=serializers.CurrentUserDefault())
+
     class Meta:
         model = TestResult
-        fields = ('medical_sample', 'resultDocument', 'result', 'date_processed')
+        fields = '__all__'
