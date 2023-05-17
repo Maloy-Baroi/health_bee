@@ -8,7 +8,7 @@ from App_auth.models import CustomUser
 class UserSerializers(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('email', 'password')
+        fields = ('username', 'password')
 
         extra_kwargs = {
             'password': {'write_only': True}
@@ -16,7 +16,7 @@ class UserSerializers(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = CustomUser(
-            email=validated_data['email'],  # we can also write like this: validated_data.get('email')
+            username=validated_data['username'],  # we can also write like this: validated_data.get('username')
         )
 
         user.set_password(validated_data['password'])
@@ -30,10 +30,10 @@ class UserSerializers(serializers.ModelSerializer):
 
 
 class ForgotPasswordSerializer(serializers.Serializer):
-    email = serializers.EmailField()
+    username = serializers.EmailField()
 
     def validate_email(self, value):
-        user = CustomUser.objects.filter(email=value).first()
+        user = CustomUser.objects.filter(username=value).first()
         if not user:
             raise serializers.ValidationError('User not found')
         return value
